@@ -1,0 +1,36 @@
+# 환경 변수 파일 (비밀번호 포함)
+.env
+
+# 로그 파일들
+*.log
+logs/
+
+# Python 관련
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# OS 관련
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE 관련
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker 관련
+.docker/

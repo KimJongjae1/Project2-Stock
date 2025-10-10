@@ -1,0 +1,71 @@
+server:
+  port: 8080
+
+app:
+  # 백엔드
+  base-url: ${BACK_BASE_URL:http://localhost:8080}
+  # 프론트 origin (CORS/리다이렉트 등에 사용)
+  front-origin: ${FRONT_ORIGIN:http://localhost:5173}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:${app.front-origin}}
+
+  #쿠키인디 https가 아니라 http라서 secure false 두고 same-site도 none이 아니라 lax
+  # 이후 https 로 바꾸려면 true에 none 으로 바꾸면됨
+  cookie:
+    secure: false
+    same-site: Lax
+
+keywords:
+  api:
+    url: http://j13a301a.p.ssafy.io:8888
+
+spring:
+  config:
+    import: optional:dotenv:file:.env,optional:dotenv:file:./back/.env
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/survive_stock?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=utf8
+    username: root
+    password: ssafy
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      username: ${REDIS_USERNAME:default}
+      password: ${REDIS_PASSWORD}
+      ssl:
+        enabled: ${REDIS_SSL:false}
+      timeout: 3s
+
+  jpa:
+    hibernate:
+      ddl-auto: update # create는 매번 테이블 재생성, update는 기존 데이터 유지하면서 변경 반영
+#    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+oauth:
+  kakao:
+    client-id: ${KAKAO_CLIENT_ID}
+    client-secret: ${KAKAO_CLIENT_SECRET:}
+    redirect-uri: ${app.base-url}/api/users/auth/kakao/callback
+
+  google:
+    client-id: ${GOOGLE_CLIENT_ID}
+    client-secret: ${GOOGLE_CLIENT_SECRET:}
+    redirect-uri: ${app.base-url}/api/users/auth/google/callback
+
+jwt:
+  secret: ${JWT_SECRET}
+  access-exp-minutes: ${JWT_ACCESS_EXP_MINUTES:60}
+  refresh-exp-days: ${JWT_REFRESH_EXP_DAYS:14}
+
+management:
+  endpoints:
+    web:
+      base-path: /api/actuator
+      exposure:
+        include: health,info

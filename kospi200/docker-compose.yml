@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  # MySQL 데이터베이스
+  mysql:
+    image: mysql:8.0
+    container_name: stock_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      # root 사용자이므로 MYSQL_USER, MYSQL_PASSWORD 제거
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-logs:/var/log/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    networks:
+      - stock_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # 주식 데이터 수집 시스템
+  stock_system:
+    build: .
+    container_name: stock_collector
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - stock_network
+    command: python stock_data_system.py scheduler
+
+  # 선택사항: phpMyAdmin (DB 관리용)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: stock_phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: ${DB_USER}
+      PMA_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "8080:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - stock_network
+
+volumes:
+  mysql_data:
+
+networks:
+  stock_network:
+    driver: bridge

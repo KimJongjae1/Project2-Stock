@@ -1,0 +1,42 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.45">
+  <description>Stock Trading System CI/CD Pipeline</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.discard__build.DiscardBuildProperty>
+      <strategy class="hudson.plugins.discard__build.DiscardOldBuildStrategy">
+        <daysToKeepStr>7</daysToKeepStr>
+        <numToKeepStr>10</numToKeepStr>
+        <artifactDaysToKeepStr>-1</artifactDaysToKeepStr>
+        <artifactNumToKeepStr>-1</artifactNumToKeepStr>
+      </strategy>
+    </hudson.plugins.discard__build.DiscardBuildProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.94">
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@4.11.3">
+      <configVersion>2</configVersion>
+      <userRemoteConfigs>
+        <hudson.plugins.git.UserRemoteConfig>
+          <url>https://github.com/your-repo/stock-trading-system.git</url>
+        </hudson.plugins.git.UserRemoteConfig>
+      </userRemoteConfigs>
+      <branches>
+        <hudson.plugins.git.BranchSpec>
+          <name>*/main</name>
+        </hudson.plugins.git.BranchSpec>
+      </branches>
+      <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+      <submoduleCfg class="list"/>
+      <extensions/>
+    </scm>
+    <scriptPath>Jenkinsfile</scriptPath>
+    <lightweight>true</lightweight>
+  </definition>
+  <triggers>
+    <hudson.triggers.SCMTrigger>
+      <spec>H/5 * * * *</spec>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
+  <disabled>false</disabled>
+</flow-definition>
+

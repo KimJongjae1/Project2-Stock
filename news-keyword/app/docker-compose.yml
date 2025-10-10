@@ -1,0 +1,31 @@
+services:
+  keyword-api:
+    build: .
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/app:rw  # 개발 시 코드 변경을 위한 마운트
+    environment:
+      - PYTHONPATH=/app
+      - SPARK_LOCAL_IP=0.0.0.0
+      # OpenAI API 키 설정 (실제 키로 변경하거나 .env 파일 사용)
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-your_openai_api_key_here}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DEBUG=${DEBUG:-False}
+      # AWS 자격 증명 (S3 접근용)
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-ap-northeast-2}
+      # S3 설정
+      - S3_BUCKET=${S3_BUCKET:-cheesecrust-spark-data-bucket}
+      - S3_PREFIX=${S3_PREFIX:-outputs/pagerank/data/}
+    env_file:
+      - .env  # .env 파일에서 환경 변수 로드
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+

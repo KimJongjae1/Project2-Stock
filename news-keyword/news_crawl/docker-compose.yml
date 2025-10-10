@@ -1,0 +1,38 @@
+version: '3.8'
+
+# Chrome 버전 대신 Chromium 버전을 기본으로 사용
+# 더 안정적이고 빌드 오류가 적습니다
+
+services:
+  bigkinds-automation:
+    build:
+      context: .
+      dockerfile: Dockerfile.chromium
+    container_name: bigkinds-news-crawler
+    volumes:
+      - ./:/app
+      # 다운로드된 파일을 호스트와 공유
+      - ./downloads:/app/downloads
+      # 로그 파일을 호스트와 공유
+      - ./logs:/app/logs
+    environment:
+      - PYTHONPATH=/app
+      - DISPLAY=:99
+      - CHROME_BIN=/usr/bin/chromium
+      - CHROMEDRIVER_PATH=/usr/bin/chromedriver
+      - DOCKER_ENV=true
+      - SEARCH_PERIOD_DAYS=0
+      # AWS 자격 증명 (영구 자격 증명 사용)
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=ap-northeast-2
+      - S3_BUCKET=cheesecrust-spark-data-bucket
+      - S3_PREFIX=outputs/data
+    # 헤드리스 모드로 실행 (GUI 없이)
+    command: python run_automation_docker.py
+    # 컨테이너가 종료된 후에도 로그 확인 가능
+    restart: "no"
+    # 메모리 제한 설정
+    mem_limit: 2g
+    # CPU 제한 설정
+    cpus: 1.0

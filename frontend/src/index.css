@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/* Custom dark scrollbar */
+.scroll-dark::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-dark::-webkit-scrollbar-track {
+  background: #0f172a; /* slate-900 */
+}
+.scroll-dark::-webkit-scrollbar-thumb {
+  background-color: #1f2937; /* slate-800 */
+  border-radius: 8px;
+}
+.scroll-dark::-webkit-scrollbar-thumb:hover {
+  background-color: #334155; /* slate-700 */
+}
+
+/* Firefox */
+.scroll-dark {
+  scrollbar-width: thin;
+  scrollbar-color: #1f2937 #0f172a;
+}

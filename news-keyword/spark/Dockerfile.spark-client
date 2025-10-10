@@ -1,0 +1,12 @@
+FROM apache/spark:3.4.1-scala2.12-java11-python3-ubuntu
+
+USER root
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+RUN pip3 install --no-cache-dir --upgrade pip && \
+    pip3 install --no-cache-dir pandas networkx matplotlib seaborn numpy scipy flask prometheus_client requests
+# spark 홈 권한 보장(캐시/런타임 경로 이슈 방지)
+RUN mkdir -p /home/spark && chown -R spark:spark /home/spark
+
+USER spark
+WORKDIR /opt/spark
+CMD ["tail", "-f", "/dev/null"]

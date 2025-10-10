@@ -1,0 +1,23 @@
+# Jenkins 필수 플러그인 목록
+workflow-aggregator
+docker-workflow
+docker-plugin
+git
+github
+blueocean
+pipeline-stage-view
+build-timeout
+credentials-binding
+timestamper
+ws-cleanup
+ant
+gradle
+ssh-slaves
+matrix-auth
+pam-auth
+ldap
+email-ext
+mailer
+slack
+telegram-notifications
+generic-webhook-trigger

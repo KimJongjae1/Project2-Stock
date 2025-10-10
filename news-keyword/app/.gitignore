@@ -1,0 +1,81 @@
+# 환경변수 파일 (절대 업로드 금지!)
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.example
+*.env
+
+# API 키 관련 파일들
+api_keys.txt
+openai_key.txt
+anthropic_key.txt
+google_key.txt
+secrets.json
+config_secret.json
+
+# Python 캐시 및 컴파일 파일
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+
+# 로그 파일
+*.log
+logs/
+app.log
+error.log
+debug.log
+
+# 데이터베이스 파일
+*.db
+*.sqlite
+*.sqlite3
+
+# 임시 파일
+*.tmp
+*.temp
+temp/
+tmp/
+
+# 백업 파일
+*.bak
+*.backup
+
+# IDE 설정
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 테스트 관련
+.pytest_cache/
+.coverage
+htmlcov/
+test_results/
+
+# 모델 파일 (용량이 큰 ML 모델들)
+*.pkl
+*.model
+*.h5
+*.ckpt
+models/
+
+# 업로드/다운로드 파일
+uploads/
+downloads/
+files/
+
+# Docker 관련
+.dockerignore
+
+# OS 관련
+.DS_Store
+Thumbs.db
+
+# Virtual Environment (혹시 이 디렉토리에 생성될 경우)
+venv/
+env/
+.venv/

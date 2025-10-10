@@ -1,0 +1,46 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # Spark Master 메트릭 수집
+  - job_name: 'spark-master'
+    static_configs:
+      - targets: ['spark-master:8000']
+    metrics_path: '/metrics/prometheus'
+    scrape_interval: 10s
+
+  # Spark Worker 메트릭 수집
+  - job_name: 'spark-worker-1'
+    static_configs:
+      - targets: ['spark-worker-1:8081']
+    metrics_path: '/metrics/prometheus'
+    scrape_interval: 10s
+
+  - job_name: 'spark-worker-2'
+    static_configs:
+      - targets: ['spark-worker-2:8081']
+    metrics_path: '/metrics/prometheus'
+    scrape_interval: 10s
+
+  # 커스텀 Spark Job 메트릭 수집
+  - job_name: 'spark-job-metrics'
+    static_configs:
+      - targets: ['spark-metrics-exporter:9090']
+    scrape_interval: 5s
+
+  # Node Exporter (시스템 메트릭)
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+    scrape_interval: 15s
+
+  # Pushgateway (배치 작업 메트릭)
+  - job_name: 'pushgateway'
+    static_configs:
+      - targets: ['pushgateway:9091']
+    scrape_interval: 15s
