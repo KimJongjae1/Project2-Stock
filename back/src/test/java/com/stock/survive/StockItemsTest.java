@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @Log4j2
+@Tag("integration")
 public class StockItemsTest {
 
     @Autowired

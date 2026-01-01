@@ -33,6 +33,33 @@ pipeline {
   }
 
   stages {
+    stage('Unit Tests') {
+      options { timeout(time: 15, unit: 'MINUTES') }
+      steps {
+        checkout scm
+        dir('back') {
+          sh '''
+set -e
+chmod +x ./gradlew
+./gradlew test
+'''
+        }
+      }
+    }
+
+    stage('Integration Tests') {
+      options { timeout(time: 25, unit: 'MINUTES') }
+      steps {
+        dir('back') {
+          sh '''
+set -e
+chmod +x ./gradlew
+./gradlew integrationTest
+'''
+        }
+      }
+    }
+
     stage('Build & Deploy') {
       options { timeout(time: 40, unit: 'MINUTES'); retry(1) }
       steps {

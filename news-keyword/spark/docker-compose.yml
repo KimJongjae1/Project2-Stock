@@ -42,7 +42,7 @@ services:
       - SPARK_HOME=/opt/spark
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_DEFAULT_REGION=ap-northeast-2
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-ap-northeast-2}
       - S3_BUCKET=cheesecrust-spark-data-bucket
       - S3_PREFIX=outputs/pagerank
       - EXPORT_CSV=true
@@ -78,7 +78,7 @@ services:
       - SPARK_HOME=/opt/spark
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_DEFAULT_REGION=ap-northeast-2
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-ap-northeast-2}
       - S3_BUCKET=cheesecrust-spark-data-bucket
       - S3_PREFIX=outputs/pagerank
       - EXPORT_CSV=true
@@ -112,7 +112,7 @@ services:
       - USER=root
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_DEFAULT_REGION=ap-northeast-2
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-ap-northeast-2}
       - S3_BUCKET=cheesecrust-spark-data-bucket
       - S3_PREFIX=outputs/pagerank
       - EXPORT_CSV=true
